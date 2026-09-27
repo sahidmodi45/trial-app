@@ -63,5 +63,5 @@ One branch per change (git switch -c <name>/<task>) -> commit -> push -> gh pr c
 
 ## Status
 
-Built: config, layout, header, footer, landing (hero and how-it-works are stubs).
-Next: build Hero and HowItWorks.
+Built: config, layout, header, footer, landing (hero, category tiles, how-it-works, creator CTA).
+Next: TBD.
