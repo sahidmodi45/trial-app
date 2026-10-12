@@ -10,7 +10,7 @@ export function CreatorCta() {
           List your portfolio, set your starting price, and get booking requests
           from clients near you.
         </p>
-        <Link href="/signup" className={buttonVariants({ size: "lg" })}>
+        <Link href="/signup?as=creative" className={buttonVariants({ size: "lg" })}>
           Join as a creative
         </Link>
       </div>

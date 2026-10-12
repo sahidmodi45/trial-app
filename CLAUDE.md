@@ -6,7 +6,7 @@ An "Urban Company for creative services" in India. Clients find and book creativ
 
 ## Stack
 
-Next.js (App Router, TypeScript), Tailwind + shadcn/ui, Supabase (Postgres, Auth with email+password, Storage, RLS), Vercel (auto-deploys main), Supabase CLI via npx (migrations in supabase/migrations).
+Next.js (App Router, TypeScript), Tailwind + shadcn/ui, Supabase (Postgres, Auth with Google + Facebook login, Storage, RLS), Vercel (auto-deploys main), Supabase CLI via npx (migrations in supabase/migrations).
 
 ## Commands
 
@@ -63,5 +63,5 @@ One branch per change (git switch -c <name>/<task>) -> commit -> push -> gh pr c
 
 ## Status
 
-Built: config, layout, header, footer, landing (hero, category tiles, how-it-works, creator CTA).
+Built: config, layout, header, footer, landing (hero, category tiles, how-it-works, creator CTA); login with Google/Facebook, /signup role choice (client or creative), /onboarding creates profiles (see docs/RUNBOOK.md for provider setup).
 Next: TBD.

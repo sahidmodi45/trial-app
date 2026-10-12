@@ -8,9 +8,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { signOut } from "@/app/login/actions"
+import { getProfile, getUser } from "@/lib/auth"
 import { cn } from "@/lib/utils"
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const user = await getUser()
+  const profile = user ? await getProfile(user.id) : null
+  const name = profile?.name ?? user?.fullName ?? user?.email
+
   return (
     <header className="sticky top-0 z-40 border-b bg-background">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
@@ -22,12 +28,25 @@ export function SiteHeader() {
           <Link href="/browse" className={buttonVariants({ variant: "ghost" })}>
             Browse
           </Link>
-          <Link href="/login" className={buttonVariants({ variant: "outline" })}>
-            Log in
-          </Link>
-          <Link href="/signup" className={buttonVariants({ variant: "default" })}>
-            Sign up
-          </Link>
+          {user ? (
+            <>
+              <span className="max-w-40 truncate px-2 text-sm text-muted-foreground">{name}</span>
+              <form action={signOut}>
+                <Button type="submit" variant="outline">
+                  Log out
+                </Button>
+              </form>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className={buttonVariants({ variant: "outline" })}>
+                Log in
+              </Link>
+              <Link href="/signup" className={buttonVariants({ variant: "default" })}>
+                Sign up
+              </Link>
+            </>
+          )}
         </nav>
 
         <Sheet>
@@ -54,18 +73,31 @@ export function SiteHeader() {
               >
                 Browse
               </Link>
-              <Link
-                href="/login"
-                className={cn(buttonVariants({ variant: "outline" }), "justify-start")}
-              >
-                Log in
-              </Link>
-              <Link
-                href="/signup"
-                className={cn(buttonVariants({ variant: "default" }), "justify-start")}
-              >
-                Sign up
-              </Link>
+              {user ? (
+                <>
+                  <p className="truncate px-2.5 py-2 text-sm text-muted-foreground">{name}</p>
+                  <form action={signOut}>
+                    <Button type="submit" variant="outline" className="h-11 w-full justify-start">
+                      Log out
+                    </Button>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className={cn(buttonVariants({ variant: "outline" }), "justify-start")}
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className={cn(buttonVariants({ variant: "default" }), "justify-start")}
+                  >
+                    Sign up
+                  </Link>
+                </>
+              )}
             </nav>
           </SheetContent>
         </Sheet>

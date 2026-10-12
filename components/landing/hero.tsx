@@ -21,7 +21,7 @@ export function Hero() {
             Find a creative
           </Link>
           <Link
-            href="/signup"
+            href="/signup?as=creative"
             className={cn(buttonVariants({ variant: "outline", size: "lg" }), "w-full sm:w-auto")}
           >
             Join as a creative
