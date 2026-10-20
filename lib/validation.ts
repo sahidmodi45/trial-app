@@ -1,34 +1,39 @@
 import { z } from "zod"
 import { CITIES } from "@/lib/cities"
 
-// Rules mirror the CHECK constraints in the profiles migration, so a form
-// error shows here instead of as a database error after submit.
+const email = z.email({ error: "Enter a valid email" })
 
-export const profileSchema = z.object({
-  role: z.enum(["client", "creative"], { error: "Choose client or creative" }),
+export const signUpSchema = z
+  .object({
+    email,
+    password: z.string().min(8, { error: "Password must be at least 8 characters" }),
+    confirmPassword: z.string(),
+  })
+  .refine((v) => v.password === v.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  })
+
+export const signInSchema = z.object({
+  email,
+  password: z.string().min(1, { error: "Enter your password" }),
+})
+
+// "+91 98765 43210", "098765 43210" and "9876543210" all become +919876543210,
+// the one format the database allows.
+const phone = z
+  .string()
+  .transform((s) => s.replace(/\s/g, "").replace(/^(\+91|0)/, ""))
+  .pipe(z.string().regex(/^[6-9][0-9]{9}$/, { error: "Enter a valid 10-digit Indian mobile number" }))
+  .transform((digits) => `+91${digits}`)
+
+export const onboardingSchema = z.object({
+  role: z.enum(["client", "creative"]),
   full_name: z
     .string()
     .trim()
     .min(2, { error: "Name must be at least 2 characters" })
-    .max(60, { error: "Name must be at most 60 characters" }),
-  city: z.enum(CITIES, { error: "Choose a city from the list" }),
+    .max(60, { error: "Name must be 60 characters or fewer" }),
+  city: z.enum(CITIES, { message: "Select a city" }),
+  phone,
 })
-
-// role is fixed after onboarding (the update grant leaves it out), so edits omit it.
-export const profileUpdateSchema = profileSchema.omit({ role: true })
-
-// People type numbers as "98765 43210", "+91 98765-43210" or "098765...".
-// Accept those, then store the one format the database allows: +91XXXXXXXXXX.
-export const phoneSchema = z
-  .string()
-  .transform((s) => s.replace(/[\s()-]/g, "").replace(/^(\+91|91|0)(?=\d{10}$)/, ""))
-  .pipe(z.string().regex(/^[6-9]\d{9}$/, { error: "Enter a 10-digit Indian mobile number" }))
-  .transform((digits) => `+91${digits}`)
-
-export const contactSchema = z.object({
-  phone: phoneSchema,
-})
-
-export type ProfileInput = z.infer<typeof profileSchema>
-export type ProfileUpdateInput = z.infer<typeof profileUpdateSchema>
-export type ContactInput = z.infer<typeof contactSchema>
