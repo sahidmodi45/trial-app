@@ -65,6 +65,181 @@ export type Database = {
           },
         ]
       }
+      creative_categories: {
+        Row: {
+          category: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_categories_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "creative_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      creative_packages: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          position: number
+          price: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          position?: number
+          price: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          position?: number
+          price?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_packages_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "creative_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      creative_profiles: {
+        Row: {
+          area: string | null
+          bio: string | null
+          created_at: string
+          instagram: string | null
+          published: boolean
+          slug: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          area?: string | null
+          bio?: string | null
+          created_at?: string
+          instagram?: string | null
+          published?: boolean
+          slug: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          area?: string | null
+          bio?: string | null
+          created_at?: string
+          instagram?: string | null
+          published?: boolean
+          slug?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      portfolio_photos: {
+        Row: {
+          created_at: string
+          id: string
+          is_cover: boolean
+          path: string
+          position: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_cover?: boolean
+          path: string
+          position?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_cover?: boolean
+          path?: string
+          position?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portfolio_photos_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "creative_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      portfolio_videos: {
+        Row: {
+          created_at: string
+          id: string
+          path: string | null
+          position: number
+          source: string
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          path?: string | null
+          position?: number
+          source: string
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          path?: string | null
+          position?: number
+          source?: string
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "portfolio_videos_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "creative_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_path: string | null
